@@ -89,25 +89,18 @@ public:
 
 int main()
 {
-    Graph g(12);
+    Graph g(6);
 
     g.addEdge(0, 1);
     g.addEdge(0, 2);
     g.addEdge(1, 3);
-    g.addEdge(1, 4);
-    g.addEdge(2, 5);
-    g.addEdge(2, 6);
-    g.addEdge(3, 7);
-    g.addEdge(4, 7);
-    g.addEdge(5, 8);
-    g.addEdge(6, 9);
-    g.addEdge(8, 9);
-    g.addEdge(10, 11);
+    g.addEdge(2, 4);
+    g.addEdge(4, 5);
 
     int src, dest;
     cin >> src >> dest;
 
-    vector<bool> visited(12, false);
+    vector<bool> visited(6, false);
 
     cout << "DFS: ";
     g.dfs(src, visited);
@@ -117,3 +110,16 @@ int main()
 
     return 0;
 }
+
+/*
+Sample Input:
+0 9
+
+Explanation:
+0 = Source node
+9 = Destination node
+
+Expected Output:
+DFS: 0 1 3 7 4 2 5 8 9 6
+BFS Shortest Path: Shortest Path (Packet Routing): 0 2 6 9
+*/

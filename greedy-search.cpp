@@ -116,7 +116,7 @@ struct Job {
     int profit;
 };
 
-bool cmp(Job a, Job b) {
+bool cmp(Job a, Job b) { 
 
     return a.profit > b.profit;
 }
@@ -238,3 +238,86 @@ int main() {
 
     return 0;
 }
+
+
+/*
+
+================ Selection Sort ================
+
+Sample Input:
+1
+5
+64 25 12 22 11
+
+Explanation:
+1  -> Choose Selection Sort
+5  -> Number of elements
+64 25 12 22 11 -> Array elements
+
+Expected Output:
+Sorted Array:
+11 12 22 25 64
+
+
+================ Prim's MST ================
+
+Sample Input:
+2
+4
+5
+0 1 10
+0 2 6
+0 3 5
+1 3 15
+2 3 4
+
+Explanation:
+2 -> Choose Prim's MST
+4 -> Number of vertices
+5 -> Number of edges
+
+Edges Format:
+u v w
+u = source vertex
+v = destination vertex
+w = edge weight
+
+Expected Output:
+Edges in MST:
+0 - 1 weight: 10
+3 - 2 weight: 4
+0 - 3 weight: 5
+
+Total MST Weight: 19
+
+
+================ Job Scheduling ================
+
+Sample Input:
+3
+5
+A 2 100
+B 1 19
+C 2 27
+D 1 25
+E 3 15
+
+Explanation:
+3 -> Choose Job Scheduling
+5 -> Number of jobs
+
+Job Input Format:
+JobID Deadline Profit
+
+A 2 100
+A = Job ID
+2 = Deadline
+100 = Profit
+
+Expected Output:
+Selected Jobs:
+C A E
+
+Total Profit: 142
+
+*/

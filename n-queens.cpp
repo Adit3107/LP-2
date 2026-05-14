@@ -94,3 +94,28 @@ int main() {
 
     return 0;
 }
+
+/*
+
+================ N-Queens Problem ================
+
+Sample Input:
+4
+
+Explanation:
+4 -> Size of chessboard (4x4)
+Program will place 4 queens on the board such that:
+- No two queens are in the same row
+- No two queens are in the same column
+- No two queens are on the same diagonal
+
+Expected Output:
+
+Solution Exists:
+
+. Q . .
+. . . Q
+Q . . .
+. . Q .
+
+*/
