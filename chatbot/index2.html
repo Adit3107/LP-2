@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Career Chatbot</title>
+</head>
+
+<body>
+
+    <h2>Career Chatbot</h2>
+
+    <div id="chatbox"></div>
+
+    <input type="text" id="userInput" placeholder="Type message">
+
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+
+        function chatbotResponse(user) {
+
+            user = user.toLowerCase();
+
+            let responses = {
+
+                "hello": "Hello! Tell me your interest.",
+
+                "hi": "Hi there!",
+
+                "coding": "Learn Python, Java, DSA, and build projects.",
+
+                "design": "Learn Figma and UI/UX concepts.",
+
+                "business": "Improve communication and marketing skills.",
+
+                "ai": "Start with Python and Machine Learning.",
+
+                "web": "Learn HTML, CSS, JavaScript, React.",
+
+                "resume": "Keep resume short and ATS-friendly.",
+
+                "interview": "Practice DSA and HR questions.",
+
+                "job": "Build skills and apply regularly.",
+
+                "skills": "Communication and problem-solving are important."
+            };
+
+            for (let key in responses) {
+
+                if (user.includes(key)) {
+                    return responses[key];
+                }
+            }
+
+            return "Ask about coding, AI, jobs, resume, or interview.";
+        }
+
+
+        function sendMessage() {
+
+            let input = document.getElementById("userInput");
+
+            let chatbox = document.getElementById("chatbox");
+
+            let userText = input.value;
+
+            if (userText === "") {
+                return;
+            }
+
+            chatbox.innerHTML += "<p><b>You:</b> " + userText + "</p>";
+
+            if (userText.toLowerCase() === "bye") {
+
+                chatbox.innerHTML += "<p><b>Bot:</b> Goodbye!</p>";
+
+                input.value = "";
+
+                return;
+            }
+
+            let response = chatbotResponse(userText);
+
+            chatbox.innerHTML += "<p><b>Bot:</b> " + response + "</p>";
+
+            input.value = "";
+        }
+
+
+        document.getElementById("userInput")
+            .addEventListener("keypress", function(event) {
+
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City College</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-logo">🎓 City College</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Courses</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Welcome to City College</h1>
+        <p>Empowering students with knowledge and opportunity since 1995.</p>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>📚 Courses</h3>
+            <p>BCA, BBA, MCA, MBA and more programs available.</p>
+        </div>
+        <div class="card">
+            <h3>🕘 Timings</h3>
+            <p>College open Monday to Saturday, 9 AM – 5 PM.</p>
+        </div>
+        <div class="card">
+            <h3>📖 Library</h3>
+            <p>Located on the 2nd floor. Open during college hours.</p>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chat-bubble">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span>💬 College Chatbot</span>
+                <span class="close-btn" onclick="toggleChat()">✕</span>
+            </div>
+            <div id="chatbox"></div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask something..." onkeydown="if(event.key==='Enter') sendMessage()" />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <button class="chat-toggle" onclick="toggleChat()" aria-label="Open chatbot">💬</button>
+    </div>
+
+    <script src="index.js"></script>
+
+</body>
+</html>

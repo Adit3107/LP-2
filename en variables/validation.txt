@@ -1,0 +1,15 @@
+Emp_id__c <= 0
+
+OR(
+    ISBLANK(Faculty_Name__c),
+    LEN(TRIM(Faculty_Name__c)) < 3
+)
+
+Joining_Date__c > TODAY()
+
+NOT(
+    REGEX(
+        email__c,
+        "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+    )
+)

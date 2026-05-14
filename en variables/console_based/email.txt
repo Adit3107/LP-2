@@ -1,0 +1,34 @@
+public class SendEmailDemo {
+    public static void sendEmail() {
+        Messaging.SingleEmailMessage mail =
+            new Messaging.SingleEmailMessage();
+
+        mail.setToAddresses(
+            new String[] {'ays33k@gmail.com'}
+        );
+
+        mail.setSubject('Email with Attachment');
+
+        mail.setPlainTextBody(
+            'Please find the attachment.'
+        );
+
+        Messaging.EmailFileAttachment file =
+            new Messaging.EmailFileAttachment();
+
+        file.setFileName('test.txt');
+        file.setBody(
+            Blob.valueOf('This is the attachment content.')
+        );
+
+        mail.setFileAttachments(
+            new Messaging.EmailFileAttachment[] { file }
+        );
+
+        Messaging.sendEmail(
+            new Messaging.SingleEmailMessage[] { mail }
+        );
+
+        System.debug('Email Sent Successfully');
+    }
+}

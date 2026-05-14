@@ -1,0 +1,113 @@
+public class StudManager { 
+
+    // Object for form binding
+    public Stud__c studObj { get; set; } 
+    
+    // List to display all students
+    public List<Stud__c> studList { get; set; } 
+
+    // Constructor
+    public StudManager() { 
+        studObj = new Stud__c(); 
+        getStuds(); 
+    } 
+
+ 
+    public void addStud() { 
+        try { 
+            insert studObj; 
+
+            ApexPages.addMessage(new ApexPages.Message(
+                ApexPages.Severity.CONFIRM, 'Student added successfully'
+            ));
+
+            // Reset form
+            studObj = new Stud__c(); 
+
+        } catch (Exception e) { 
+            ApexPages.addMessage(new ApexPages.Message(
+                ApexPages.Severity.ERROR, 'Error: ' + e.getMessage()
+            ));
+        } 
+
+        getStuds(); 
+    } 
+
+
+    public void getStuds() { 
+        try {
+            studList = [
+                SELECT Id, Name, Stud_id__c, Mob_no__c 
+                FROM Stud__c
+                ORDER BY CreatedDate DESC
+            ];
+        } catch(Exception e) {
+            ApexPages.addMessage(new ApexPages.Message(
+                ApexPages.Severity.ERROR, 'Error loading students'
+            ));
+        }
+    } 
+
+    
+    public void editStud() {
+        try {
+            String studId = ApexPages.currentPage().getParameters().get('studId');
+
+            if (String.isNotBlank(studId)) {
+                studObj = [
+                    SELECT Id, Name, Stud_id__c, Mob_no__c 
+                    FROM Stud__c 
+                    WHERE Id = :studId 
+                    LIMIT 1
+                ];
+            }
+
+        } catch(Exception e) {
+            ApexPages.addMessage(new ApexPages.Message(
+                ApexPages.Severity.ERROR, 'Error loading student'
+            ));
+        }
+    }
+
+    public void updateStud() {
+    try {
+        update studList;
+
+        ApexPages.addMessage(new ApexPages.Message(
+            ApexPages.Severity.CONFIRM, 'Student updated successfully'
+        ));
+
+    } catch(Exception e) {
+        ApexPages.addMessage(new ApexPages.Message(
+            ApexPages.Severity.ERROR, 'Error updating student: ' + e.getMessage()
+        ));
+    }
+
+    getStuds();
+}
+
+    public void deleteStud() { 
+        try { 
+            String studId = ApexPages.currentPage().getParameters().get('studId'); 
+
+            if (String.isNotBlank(studId)) { 
+                delete new Stud__c(Id = studId); 
+
+                ApexPages.addMessage(new ApexPages.Message(
+                    ApexPages.Severity.CONFIRM, 'Student deleted successfully'
+                ));
+            } 
+
+        } catch (Exception e) { 
+            ApexPages.addMessage(new ApexPages.Message(
+                ApexPages.Severity.ERROR, 'Error deleting student: ' + e.getMessage()
+            ));
+        } 
+
+        getStuds();
+    } 
+
+    public void clearForm() {
+        studObj = new Stud__c();
+    }
+}

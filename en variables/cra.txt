@@ -1,0 +1,111 @@
+# Login to AWS Console
+# Search EC2
+# Open EC2 Dashboard
+
+# Launch New EC2 Instance
+# Select Ubuntu Server 22.04
+# Select t2.micro
+# Create Key Pair and Download PEM File
+# Allow SSH (22)
+# Allow HTTP (80)
+# Allow Custom TCP (3000)
+# Allow Custom TCP (5000)
+# Launch Instance
+
+# Open Terminal in PEM File Location
+
+# Give permission to PEM file
+chmod 400 your-key.pem
+
+# Connect Local Machine → EC2 Instance
+ssh -i your-key.pem ubuntu@<YOUR_VM_IP>
+
+# Update Ubuntu
+sudo apt update -y
+
+# Upgrade Packages
+sudo apt upgrade -y
+
+# Install Node.js and npm
+sudo apt install nodejs npm -y
+
+# Check Versions
+node -v
+npm -v
+
+# OPTIONAL: Install Latest Node.js
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Clone Repository
+git clone https://github.com/kaustubhgharat/Event_Management
+
+# Move into Project Folder
+cd ~/Event_Management
+
+# Configure Frontend Environment File
+nano ~/Event_Management/frontend/.env
+
+# Replace:
+REACT_APP_API_URL=http://localhost:5000
+
+# With:
+REACT_APP_API_URL=http://YOUR_VM_IP:5000
+
+# Save File
+# CTRL + O
+# Press Enter
+# CTRL + X
+
+# START BACKEND
+
+cd ~/Event_Management/backend
+
+# Install Dependencies
+npm install
+
+# Start Backend
+node app.js
+
+# OPTIONAL: Install Nodemon
+npm install -g nodemon
+
+# Start Backend with Nodemon
+nodemon app.js
+
+# Open New SSH Terminal for Frontend
+
+# Connect Again
+ssh -i your-key.pem ubuntu@<YOUR_VM_IP>
+
+# Move to Frontend Folder
+cd ~/Event_Management/frontend
+
+# Install Dependencies
+npm install
+
+# Start Frontend
+npm start
+
+# Open in Browser
+http://YOUR_VM_IP:3000
+
+# RAM FIX (If npm crashes)
+
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+free -h
+
+# Make Swap Permanent
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+# PORT ISSUE FIX
+
+sudo lsof -i :5000
+sudo kill -9 <PID>
+
+# UPDATE npm
+
+sudo npm install -g npm@latest

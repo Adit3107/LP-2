@@ -1,0 +1,99 @@
+public class EmailController { 
+ 
+    public String recipientEmail { get; set; } 
+    public String subject { get; set; } 
+    public String body { get; set; } 
+
+    // Attachment variables
+    public Blob fileBody { get; set; }
+    public String fileName { get; set; }
+ 
+    public String message { get; set; } 
+ 
+    // EMAIL VALIDATION
+    public static Boolean isValidEmail(String email) { 
+ 
+        if (String.isBlank(email)) { 
+            return false; 
+        } 
+     
+        Integer atPos = email.indexOf('@'); 
+        Integer dotPos = email.lastIndexOf('.'); 
+     
+        if (atPos == -1 || dotPos == -1) { 
+            return false; 
+        } 
+     
+        if (atPos > dotPos) { 
+            return false; 
+        } 
+     
+        if (atPos == 0) { 
+            return false; 
+        } 
+     
+        if (dotPos - atPos <= 1) { 
+            return false; 
+        } 
+     
+        if (dotPos == email.length() - 1) { 
+            return false; 
+        } 
+     
+        return true; 
+    } 
+ 
+    // SEND EMAIL
+    public void sendEmail() { 
+
+        try { 
+
+            // Validate Email
+            if(!isValidEmail(recipientEmail)) { 
+                message = 'Invalid email address!'; 
+                return; 
+            } 
+ 
+            // Create Email
+            Messaging.SingleEmailMessage mail =
+                new Messaging.SingleEmailMessage(); 
+
+            mail.setToAddresses(
+                new String[] { recipientEmail }
+            ); 
+
+            mail.setSubject(subject); 
+
+            mail.setPlainTextBody(body); 
+
+            // ATTACHMENT
+            if(fileBody != null && fileName != null) {
+
+                Messaging.EmailFileAttachment attachment =
+                    new Messaging.EmailFileAttachment();
+
+                attachment.setFileName(fileName);
+
+                attachment.setBody(fileBody);
+
+                mail.setFileAttachments(
+                    new Messaging.EmailFileAttachment[] {
+                        attachment
+                    }
+                );
+            }
+
+            // SEND EMAIL
+            Messaging.sendEmail(
+                new Messaging.SingleEmailMessage[] { mail }
+            ); 
+ 
+            message = 'Email sent successfully!'; 
+        }  
+        catch(Exception e) { 
+
+            message = 'Error: ' + e.getMessage(); 
+        } 
+    } 
+}
+

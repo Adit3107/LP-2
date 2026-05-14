@@ -1,0 +1,56 @@
+<apex:page controller="StudManager" lightningStylesheets="true"> 
+<apex:form > 
+
+    <!-- Messages -->
+    <apex:pageMessages id="msg"/>
+
+    <apex:pageBlock title="Add Student"> 
+
+        <apex:pageBlockSection columns="2"> 
+            <apex:inputText value="{!studObj.Name}" label="Student Name" required="true"/> 
+            <apex:inputText value="{!studObj.Stud_id__c}" label="Student ID" required="true"/> 
+            <apex:inputText value="{!studObj.Mob_no__c}" label="Mobile No" required="true"/> 
+        </apex:pageBlockSection> 
+
+        <apex:pageBlockButtons > 
+            <apex:commandButton value="Add Student" 
+                action="{!addStud}" 
+                rerender="studTable,msg"/> 
+        </apex:pageBlockButtons> 
+
+    </apex:pageBlock> 
+
+    <apex:pageBlock title="Student List" id="studTable"> 
+
+        <apex:pageBlockTable value="{!studList}" var="s"> 
+
+            <apex:column value="{!s.Name}" headerValue="Student Name"/> 
+            <apex:column value="{!s.Stud_id__c}" headerValue="Student ID"/> 
+
+            <!-- Editable Mobile -->
+            <apex:column headerValue="Mobile No"> 
+                <apex:inputText value="{!s.Mob_no__c}"/> 
+            </apex:column> 
+
+            <!-- UPDATE -->
+            <apex:column headerValue="Update"> 
+                <apex:commandButton value="Update" 
+                    action="{!updateStud}" 
+                    rerender="studTable,msg"/>
+            </apex:column> 
+
+            <!-- DELETE -->
+            <apex:column headerValue="Delete"> 
+                <apex:commandButton value="Delete" 
+                    action="{!deleteStud}" 
+                    rerender="studTable,msg"> 
+                    <apex:param name="studId" value="{!s.Id}"/> 
+                </apex:commandButton> 
+            </apex:column> 
+
+        </apex:pageBlockTable> 
+
+    </apex:pageBlock> 
+
+</apex:form> 
+</apex:page>

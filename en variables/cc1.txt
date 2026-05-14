@@ -1,0 +1,41 @@
+
+
+
+
+assignment-1
+chmod 400 file-name.pem
+ssh -i file-name.pem ubuntu@public-ip
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl start nginx
+cd var/ww/html
+sudo nano index.html
+sudo systemctl restart nginx 
+
+
+assignment-2
+ssh -i file-name.pem ubuntu@public-ip (t-1)
+scp -i file-name.pem file-name.pem ubuntu@public-ip:~(t-2)
+chmod 400 file-name.pem (t-1)
+ssh -i file-name.pem ubuntu@pvt-ip
+exit
+echo "hello-from-instance-1" file.txt
+scp -i file-key.pem file-key.pem ubuntu@pvt-ip:~
+ssh -i file-name.pem ubuntu@pvt-ip
+ls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

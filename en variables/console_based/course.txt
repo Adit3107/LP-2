@@ -1,0 +1,69 @@
+public class CourseManagementSystem {
+
+    // INSERT COURSE
+    public static void addCourse(Integer courseId,
+                                 String courseName,
+                                 String duration) {
+
+        Course__c c = new Course__c();
+
+        c.Course_ID__c = courseId;
+        c.Name = courseName;
+        c.Duration__c = duration;
+
+        insert c;
+
+        System.debug('Course Added Successfully');
+    }
+
+    // VIEW COURSES
+    public static void viewCourses() {
+
+        List<Course__c> courseList =
+            [SELECT Id,
+                    Name,
+                    Course_ID__c,
+                    Duration__c
+             FROM Course__c];
+
+        for(Course__c c : courseList) {
+
+            System.debug(
+                'Course ID: ' + c.Course_ID__c +
+                ' Name: ' + c.Name +
+                ' Duration: ' + c.Duration__c
+            );
+        }
+    }
+
+    // UPDATE COURSE
+    public static void updateCourse(Integer courseId,
+                                    String newDuration) {
+
+        Course__c c =
+            [SELECT Id, Duration__c
+             FROM Course__c
+             WHERE Course_ID__c = :courseId
+             LIMIT 1];
+
+        c.Duration__c = newDuration;
+
+        update c;
+
+        System.debug('Course Updated Successfully');
+    }
+
+    // DELETE COURSE
+    public static void deleteCourse(Integer courseId) {
+
+        Course__c c =
+            [SELECT Id
+             FROM Course__c
+             WHERE Course_ID__c = :courseId
+             LIMIT 1];
+
+        delete c;
+
+        System.debug('Course Deleted Successfully');
+    }
+}

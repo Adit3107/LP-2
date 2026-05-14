@@ -1,0 +1,77 @@
+public class BankAccountSystem {
+
+    // INSERT CUSTOMER
+    public static void addCustomer(Integer empId,
+                                   String empName,
+                                   String email,
+                                   Date birthDate,
+                                   String department) {
+
+        Customer__c c = new Customer__c();
+
+        c.Emp_ID__c = empId;
+        c.Emp_Name__c = empName;
+        c.Email__c = email;
+        c.Birth_Date__c = birthDate;
+        c.Department__c = department;
+
+        insert c;
+
+        System.debug('Customer Added Successfully');
+    }
+
+    // VIEW CUSTOMERS
+    public static void viewCustomers() {
+
+        List<Customer__c> customers =
+            [SELECT Id,
+                    Emp_ID__c,
+                    Emp_Name__c,
+                    Email__c,
+                    Birth_Date__c,
+                    Department__c
+             FROM Customer__c];
+
+        for(Customer__c c : customers) {
+
+            System.debug(
+                'Emp ID: ' + c.Emp_ID__c +
+                ' Name: ' + c.Emp_Name__c +
+                ' Email: ' + c.Email__c +
+                ' Birth Date: ' + c.Birth_Date__c +
+                ' Department: ' + c.Department__c
+            );
+        }
+    }
+
+    // UPDATE CUSTOMER
+    public static void updateCustomer(Integer empId,
+                                      String newDepartment) {
+
+        Customer__c c =
+            [SELECT Id, Department__c
+             FROM Customer__c
+             WHERE Emp_ID__c = :empId
+             LIMIT 1];
+
+        c.Department__c = newDepartment;
+
+        update c;
+
+        System.debug('Customer Updated Successfully');
+    }
+
+    // DELETE CUSTOMER
+    public static void deleteCustomer(Integer empId) {
+
+        Customer__c c =
+            [SELECT Id
+             FROM Customer__c
+             WHERE Emp_ID__c = :empId
+             LIMIT 1];
+
+        delete c;
+
+        System.debug('Customer Deleted Successfully');
+    }
+}
