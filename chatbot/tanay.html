@@ -1,87 +1,162 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Shop Chatbot</title>
-  <style>
-    body { font-family: Arial; background: #f0f0f0; display: flex; justify-content: center; padding: 30px; }
-    .box { background: white; width: 420px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; }
-    h2 { background: #2196F3; color: white; margin: 0; padding: 14px 16px; font-size: 16px; }
-    #chat { height: 300px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
-    .bot  { color: #1565C0; background: #e3f2fd; padding: 7px 12px; border-radius: 12px; align-self: flex-start; max-width: 85%; }
-    .user { color: #2e7d32; background: #e8f5e9; padding: 7px 12px; border-radius: 12px; align-self: flex-end; max-width: 85%; }
-    .input-row { display: flex; border-top: 1px solid #ddd; }
-    input  { flex: 1; padding: 10px; border: none; outline: none; font-size: 14px; }
-    button { background: #2196F3; color: white; border: none; padding: 10px 16px; cursor: pointer; font-size: 14px; }
-    button:hover { background: #1976D2; }
-  </style>
-</head>
-<body>
-<div class="box">
-  <h2>🛒 Shop Chatbot</h2>
-  <div id="chat"></div>
-  <div class="input-row">
-    <input id="box" placeholder="Type here..." />
-    <button onclick="send()">Send</button>
-  </div>
-</div>
-
-<script>
-  var intents = {
-    greet:    { keywords: ["hi","hello","hey"],           response: "Hello! Welcome to our shop." },
-    timings:  { keywords: ["time","hours","open"],        response: "We are open 9AM to 8PM daily." },
-    location: { keywords: ["where","address","location"], response: "We are at 123 Main Street." }
-  };
-
-  var inventory = { pen: 10, pencil: 5, notebook: 50 };
-  var waitingFor = null;
-
-  function show(text, who) {
-    var chat = document.getElementById("chat");
-    chat.innerHTML += "<div class='" + who + "'>" + text + "</div>";
-    chat.scrollTop = chat.scrollHeight;
-  }
-
-  function send() {
-    var input = document.getElementById("box").value.toLowerCase().trim();
-    if (!input) return;
-    show(input, "user");
-    document.getElementById("box").value = "";
-
-    if (input.includes("bye")) { show("Goodbye! Have a nice day.", "bot"); return; }
-
-    if (waitingFor) {
-      var qty = parseInt(input);
-      if (!isNaN(qty)) show("Total for " + qty + " " + waitingFor + "(s) = Rs." + qty * inventory[waitingFor], "bot");
-      else show("Please enter a valid number.", "bot");
-      waitingFor = null;
-      return;
-    }
-
-    var found = false;
-
-    for (var key in intents) {
-      var data = intents[key];
-      for (var i = 0; i < data.keywords.length; i++) {
-        if (input.includes(data.keywords[i])) { show(data.response, "bot"); found = true; break; }
-      }
-      if (found) break;
-    }
-
-    if (!found) {
-      for (var item in inventory) {
-        if (input.includes(item)) {
-          show("The " + item + " costs Rs." + inventory[item], "bot");
-          show("How many " + item + "s do you need?", "bot");
-          waitingFor = item; found = true; break;
+    <title>Shop Chatbot</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            padding: 30px;
         }
-      }
-    }
 
-    if (!found) show("I don't know that. Try: hours, location, pen, pencil, notebook.", "bot");
-  }
+        .box {
+            background: white;
+            width: 420px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
 
-  document.getElementById("box").addEventListener("keydown", function(e) { if (e.key === "Enter") send(); });
-  show("Hi! Ask me about our hours, location, or prices.", "bot");
-</script>
+        h2 {
+            background: #2196F3;
+            color: white;
+            margin: 0;
+            padding: 14px 16px;
+            font-size: 16px;
+        }
+
+        #chat {
+            height: 300px;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .bot {
+            color: #1565C0;
+            background: #e3f2fd;
+            padding: 7px 12px;
+            border-radius: 12px;
+            align-self: flex-start;
+            max-width: 85%;
+        }
+
+        .user {
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 7px 12px;
+            border-radius: 12px;
+            align-self: flex-end;
+            max-width: 85%;
+        }
+
+        .input-row {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #1976D2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h2>Shop Chatbot</h2>
+        <div id="chat"></div>
+        <div class="input-row">
+            <input id="box" placeholder="Type here..." />
+            <button onclick="send()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        var intents = {
+            greet: { keywords: ["hi", "hello", "hey", "good morning", "good evening"], response: "Hello! Welcome to our shop. How can I help?" },
+            timings: { keywords: ["time", "hours", "open", "close", "schedule"], response: "We are open 9AM to 8PM, Monday to Saturday." },
+            location: { keywords: ["where", "address", "location", "find you"], response: "We are at 123 Main Street, City Center." },
+            contact: { keywords: ["phone", "contact", "call", "number", "email"], response: "Call us at 98765-43210 or email shop@example.com." },
+            payment: { keywords: ["pay", "payment", "upi", "cash", "card", "online"], response: "We accept Cash, UPI, and all Debit/Credit cards." },
+            delivery: { keywords: ["deliver", "delivery", "home", "ship", "shipping"], response: "Yes! We deliver within 5km. Free delivery above Rs.200." },
+            return: { keywords: ["return", "refund", "exchange", "back"], response: "Returns accepted within 7 days with original bill." },
+            discount: { keywords: ["discount", "offer", "sale", "coupon", "deal"], response: "Use code SAVE10 for 10% off on orders above Rs.100." },
+            thanks: { keywords: ["thank", "thanks", "thankyou"], response: "You're welcome! Happy shopping 😊" },
+            help: { keywords: ["help", "support", "assist", "what can you do"], response: "I can help with: hours, location, payment, delivery, returns, discounts, and item prices!" },
+            goodbye: { keywords: ["bye", "goodbye", "see you", "cya", "exit"], response: "Goodbye! Have a nice day. 👋" }
+        };
+
+        var inventory = { pen: 10, pencil: 5, notebook: 50, eraser: 5, ruler: 15, sharpener: 8 };
+        var waitingFor = null;
+
+        function show(text, who) {
+            var chat = document.getElementById("chat");
+            chat.innerHTML += "<div class='" + who + "'>" + text + "</div>";
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function send() {
+            var input = document.getElementById("box").value.toLowerCase().trim();
+            if (!input) return;
+            show(input, "user");
+            document.getElementById("box").value = "";
+
+            if (waitingFor) {
+                var qty = parseInt(input);
+                if (!isNaN(qty)) show("Total for " + qty + " " + waitingFor + "(s) = Rs." + qty * inventory[waitingFor], "bot");
+                else show("Please enter a valid number.", "bot");
+                waitingFor = null;
+                return;
+            }
+
+            var found = false;
+
+            for (var key in intents) {
+                var data = intents[key];
+                for (var i = 0; i < data.keywords.length; i++) {
+                    if (input.includes(data.keywords[i])) { show(data.response, "bot"); found = true; break; }
+                }
+                if (found) break;
+            }
+
+            if (!found) {
+                for (var item in inventory) {
+                    if (input.includes(item)) {
+                        show("The " + item + " costs Rs." + inventory[item], "bot");
+                        show("How many " + item + "s do you need?", "bot");
+                        waitingFor = item; found = true; break;
+                    }
+                }
+            }
+
+            if (!found) show("I don't know that. Type 'help' to see what I can do!", "bot");
+        }
+
+        document.getElementById("box").addEventListener("keydown", function (e) { if (e.key === "Enter") send(); });
+        show("Hi! Type 'help' to see what I can do.", "bot");
+    </script>
 </body>
+
 </html>
